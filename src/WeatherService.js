@@ -4,14 +4,29 @@ const WeatherService = () => {
   const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sanjuan?key=${K}`;
 
   async function getWeatherData() {
+    let location = {};
     let today = {};
-    let weeklyForecast = [];
+    let dailyForecast = [];
 
     try {
       const response = await fetch(url);
       const weatherData = await response.json();
 
-      const { currentConditions, days, description } = weatherData;
+      console.log(weatherData);
+
+      const {
+        currentConditions,
+        days,
+        description,
+        resolvedAddress,
+        timezone,
+      } = weatherData;
+
+      location = {
+        cityCountry: resolvedAddress,
+        timezone: timezone,
+      };
+
       today = {
         currConditions: currentConditions.conditions,
         currTime: currentConditions.datetime,
@@ -29,7 +44,8 @@ const WeatherService = () => {
         description: description,
         hourlyData: days[0].hours,
       };
-      weeklyForecast = [
+
+      dailyForecast = [
         days[1],
         days[2],
         days[3],
@@ -38,12 +54,11 @@ const WeatherService = () => {
         days[6],
         days[7],
       ];
-      console.log(today, weeklyForecast);
     } catch (error) {
       console.log(error);
     }
 
-    return { today, weeklyForecast };
+    return { location, today, dailyForecast };
   }
 
   return {
