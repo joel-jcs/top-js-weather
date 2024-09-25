@@ -44,6 +44,10 @@ const DOMHandler = () => {
   };
 
   const renderCurrentWeather = async () => {
+    const data = await WeatherService.getWeatherData();
+    const currWeather = data.today;
+    console.log(data);
+
     const currentWeatherContainer = document.createElement('div');
     currentWeatherContainer.id = 'current-weather-container';
     currentWeatherContainer.classList.add('main-container-card');
@@ -56,7 +60,7 @@ const DOMHandler = () => {
     currentTempContainer.id = 'current-temp-container';
     const currentTemp = document.createElement('span');
     currentTemp.id = 'current-temp';
-    currentTemp.textContent = '75°';
+    currentTemp.textContent = `${currWeather.temp}°`;
     const currentTempUnit = document.createElement('span');
     currentTempUnit.id = 'current-temp-unit';
     currentTempUnit.textContent = 'F';
@@ -64,11 +68,11 @@ const DOMHandler = () => {
 
     const currentWeatherDesc = document.createElement('p');
     currentWeatherDesc.id = 'current-weather-desc';
-    currentWeatherDesc.textContent = 'Mostly sunny';
+    currentWeatherDesc.textContent = `${currWeather.currConditions}`;
 
     const currentfeelsLike = document.createElement('span');
     currentfeelsLike.id = 'current-real-feel';
-    currentfeelsLike.textContent = 'Real Feel: 80°';
+    currentfeelsLike.textContent = `Real Feel: ${currWeather.feelsLike}°`;
 
     const currentStatsContainer = document.createElement('div');
     currentStatsContainer.id = 'current-stats-container';
@@ -76,32 +80,32 @@ const DOMHandler = () => {
     const currentHumidity = document.createElement('span');
     currentHumidity.id = 'current-humidity';
     currentHumidity.classList.add('current-stats');
-    currentHumidity.textContent = 'Humidity: 60%';
+    currentHumidity.textContent = `Humidity: ${currWeather.humidity}%`;
 
     const currentWind = document.createElement('span');
     currentWind.id = 'current-wind';
     currentWind.classList.add('current-stats');
-    currentWind.textContent = 'Wind: ESE 5 mph';
+    currentWind.textContent = `Wind: ${currWeather.wind} mph`;
 
     const currentPrecip = document.createElement('span');
     currentPrecip.id = 'current-precip';
     currentPrecip.classList.add('current-stats');
-    currentPrecip.textContent = 'Precip: 0%';
+    currentPrecip.textContent = `Precip: ${currWeather.precip}%`;
 
     const currentUVIndex = document.createElement('span');
     currentUVIndex.id = 'current-uv';
     currentUVIndex.classList.add('current-stats');
-    currentUVIndex.textContent = 'UV Index: 4';
+    currentUVIndex.textContent = `UV Index: ${currWeather.uvIndex}`;
 
     const currentPressure = document.createElement('span');
     currentPressure.id = 'current-pressure';
     currentPressure.classList.add('current-stats');
-    currentPressure.textContent = 'Pressure: 30.00 in';
+    currentPressure.textContent = `Pressure: ${currWeather.pressure} in`;
 
     const currentVisibility = document.createElement('span');
     currentVisibility.id = 'current-visibility';
     currentVisibility.classList.add('current-stats');
-    currentVisibility.textContent = 'Visibility: 10 mi';
+    currentVisibility.textContent = `Visibility: ${currWeather.visibility} mi`;
 
     currentStatsContainer.append(
       currentHumidity,
