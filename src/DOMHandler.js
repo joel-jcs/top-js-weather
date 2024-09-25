@@ -46,7 +46,6 @@ const DOMHandler = () => {
   const renderCurrentWeather = async () => {
     const data = await WeatherService.getWeatherData();
     const currWeather = data.today;
-    console.log(data);
 
     const currentWeatherContainer = document.createElement('div');
     currentWeatherContainer.id = 'current-weather-container';
@@ -348,6 +347,9 @@ const DOMHandler = () => {
   };
 
   const renderDaylight = async () => {
+    const data = await WeatherService.getWeatherData();
+    const { sunrise, sunset } = data.today;
+
     const daylightContainer = document.createElement('div');
     daylightContainer.id = 'daylight-container';
     daylightContainer.classList.add('main-container-card');
@@ -359,15 +361,15 @@ const DOMHandler = () => {
     const sunTimesContainer = document.createElement('div');
     sunTimesContainer.id = 'sun-times-container';
 
-    const sunrise = document.createElement('span');
-    sunrise.id = 'sunrise';
-    sunrise.textContent = 'Sunrise: 06:00 AM';
+    const sunriseTime = document.createElement('span');
+    sunriseTime.id = 'sunrise';
+    sunriseTime.textContent = `Sunrise: ${sunrise} AM`;
 
-    const sunset = document.createElement('span');
-    sunset.id = 'sunset';
-    sunset.textContent = 'Sunset: 06:40 PM';
+    const sunsetTime = document.createElement('span');
+    sunsetTime.id = 'sunset';
+    sunsetTime.textContent = `Sunset: ${sunset} PM`;
 
-    sunTimesContainer.append(sunrise, sunset);
+    sunTimesContainer.append(sunriseTime, sunsetTime);
 
     daylightContainer.append(daylightHeading, sunTimesContainer);
 
