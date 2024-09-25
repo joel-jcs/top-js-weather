@@ -42,6 +42,7 @@ main {
   width: 90%;
   display: grid;
   grid-template-areas:
+    'location location'
     'summary forecast'
     'current forecast'
     'hourly forecast'
@@ -50,8 +51,8 @@ main {
   align-items: center;
   grid-template-columns: 1fr 1fr;
   background: blue;
-  padding: 20px 40px;
-  gap: 20px;
+  padding: 10px 30px;
+  gap: 15px;
 }
 
 .main-container-card {
@@ -62,6 +63,28 @@ main {
   border-radius: var(--card-border-radius);
   box-shadow: var(--card-box-shadow);
   user-select: none;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+#location-container {
+  grid-area: location;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
 }
 
 #weather-summary-container {
@@ -232,10 +255,6 @@ main {
   display: flex;
   flex-direction: column;
   padding: 10px 0;
-}
-
-h2 {
-  font-size: 1.2rem;
 }
 
 footer {
