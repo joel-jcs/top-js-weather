@@ -1,9 +1,17 @@
+import WeatherService from './WeatherService.js';
+
 const DateHandler = () => {
-  const getFormattedDate = () => {
-    const timeZone = 'America/New_York';
+  const getTimezone = async () => {
+    const data = await WeatherService.getWeatherData();
+    const tz = data.location.timezone;
+    return tz;
+  };
+
+  const getFormattedDate = async () => {
+    const tz = await getTimezone();
 
     const options = {
-      timeZone: timeZone,
+      timeZone: tz,
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -16,7 +24,7 @@ const DateHandler = () => {
     const date = new Date();
     const formattedDate = formatter.format(date);
 
-    console.log(formattedDate);
+    return formattedDate;
   };
 
   return { getFormattedDate };
