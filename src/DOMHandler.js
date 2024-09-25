@@ -1,23 +1,49 @@
+import WeatherService from './WeatherService';
+import DateHandler from './DateHandler';
+
 const DOMHandler = () => {
-  const renderWeatherSummary = () => {
+  const renderLocation = async () => {
+    const data = await WeatherService.getWeatherData();
+    const dateAndTime = await DateHandler.getFormattedDate();
+
+    const locationContainer = document.createElement('div');
+    locationContainer.id = 'location-container';
+    locationContainer.classList.add('main-container-card');
+
+    const locationName = document.createElement('h1');
+    locationName.id = 'location-heading';
+    locationName.textContent = data.location.cityCountry;
+
+    const locationTime = document.createElement('h3');
+    locationTime.id = 'date-and-time';
+    locationTime.textContent = dateAndTime;
+
+    locationContainer.append(locationName, locationTime);
+
+    return locationContainer;
+  };
+
+  const renderWeatherSummary = async () => {
+    const data = await WeatherService.getWeatherData();
+    const summary = data.today.description;
+
     const weatherSummaryContainer = document.createElement('div');
     weatherSummaryContainer.id = 'weather-summary-container';
     weatherSummaryContainer.classList.add('main-container-card');
 
     const weatherSummaryHeading = document.createElement('h2');
     weatherSummaryHeading.id = 'weather-summary-heading';
-    weatherSummaryHeading.textContent = 'Weather Summary';
+    weatherSummaryHeading.textContent = "Today's Summary";
 
     const weatherSummaryText = document.createElement('p');
     weatherSummaryText.id = 'weather-summary-text';
-    weatherSummaryText.textContent =
-      'Clouds and sun, breezy and humid; some wind and rain in the afternoon; heavy downpours can reduce visibility and cause ponding on streets and highways';
+    weatherSummaryText.textContent = summary;
 
     weatherSummaryContainer.append(weatherSummaryHeading, weatherSummaryText);
     return weatherSummaryContainer;
   };
 
-  const renderCurrentWeather = () => {
+  const renderCurrentWeather = async () => {
     const currentWeatherContainer = document.createElement('div');
     currentWeatherContainer.id = 'current-weather-container';
     currentWeatherContainer.classList.add('main-container-card');
@@ -97,7 +123,7 @@ const DOMHandler = () => {
     return currentWeatherContainer;
   };
 
-  const renderHourlyWeather = () => {
+  const renderHourlyWeather = async () => {
     const hourlyData = {
       hour1: {
         hour: '12 AM',
@@ -201,7 +227,7 @@ const DOMHandler = () => {
     return hourlyWeatherContainer;
   };
 
-  const renderDailyWeather = () => {
+  const renderDailyWeather = async () => {
     const dailyData = {
       today: {
         day: 'Today',
@@ -317,7 +343,7 @@ const DOMHandler = () => {
     return dailyWeatherContainer;
   };
 
-  const renderDaylight = () => {
+  const renderDaylight = async () => {
     const daylightContainer = document.createElement('div');
     daylightContainer.id = 'daylight-container';
     daylightContainer.classList.add('main-container-card');
@@ -344,17 +370,20 @@ const DOMHandler = () => {
     return daylightContainer;
   };
 
-  const loadContent = () => {
+  const loadContent = async () => {
     const mainCardContainer = document.createElement('div');
     mainCardContainer.id = 'main-container';
 
-    const weatherSummaryContainer = renderWeatherSummary();
-    const currentWeatherContainer = renderCurrentWeather();
-    const hourlyWeatherContainer = renderHourlyWeather();
-    const dailyWeatherContainer = renderDailyWeather();
-    const sunsetSunriseContainer = renderDaylight();
+    const locationContainer = await renderLocation();
+
+    const weatherSummaryContainer = await renderWeatherSummary();
+    const currentWeatherContainer = await renderCurrentWeather();
+    const hourlyWeatherContainer = await renderHourlyWeather();
+    const dailyWeatherContainer = await renderDailyWeather();
+    const sunsetSunriseContainer = await renderDaylight();
 
     mainCardContainer.append(
+      locationContainer,
       weatherSummaryContainer,
       currentWeatherContainer,
       hourlyWeatherContainer,
