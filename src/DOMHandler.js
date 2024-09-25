@@ -1,5 +1,5 @@
 const DOMHandler = () => {
-  const getWeatherSummary = () => {
+  const renderWeatherSummary = () => {
     const weatherSummaryContainer = document.createElement('div');
     weatherSummaryContainer.id = 'weather-summary-container';
 
@@ -16,7 +16,7 @@ const DOMHandler = () => {
     return weatherSummaryContainer;
   };
 
-  const getCurrentWeather = () => {
+  const renderCurrentWeather = () => {
     const currentWeatherContainer = document.createElement('div');
     currentWeatherContainer.id = 'current-weather-container';
 
@@ -99,9 +99,9 @@ const DOMHandler = () => {
     const todayContainer = document.createElement('div');
     todayContainer.id = 'today-container';
 
-    const weatherSummaryContainer = getWeatherSummary();
-    const currentWeatherContainer = getCurrentWeather();
-    const hourlyWeatherContainer = getHourlyWeather();
+    const weatherSummaryContainer = renderWeatherSummary();
+    const currentWeatherContainer = renderCurrentWeather();
+
     todayContainer.append(
       weatherSummaryContainer,
       currentWeatherContainer,
