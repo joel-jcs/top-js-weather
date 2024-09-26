@@ -31,7 +31,12 @@ const DOMHandler = () => {
 
     searchBtn.onclick = (e) => {
       e.preventDefault();
-      loadContent();
+      if (!searchInput.value) {
+        alert('Please enter a city name');
+        return;
+      }
+
+      loadContent(searchInput.value);
     };
   };
 
@@ -357,8 +362,8 @@ const DOMHandler = () => {
     return daylightContainer;
   };
 
-  const loadContent = async () => {
-    const data = await WeatherService.getWeatherData();
+  const loadContent = async (city) => {
+    const data = await WeatherService.getWeatherData(city);
 
     const mainContainer = document.getElementById('main-container');
 
