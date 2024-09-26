@@ -37,7 +37,7 @@ const DOMHandler = () => {
     searchBtn.onclick = (e) => {
       e.preventDefault();
       if (!searchInput.value) {
-        alert('Please enter a city name');
+        renderErrorWindow();
         return;
       }
 
@@ -459,7 +459,9 @@ const DOMHandler = () => {
     <h1>⚠️ City not found</h1>
     <h2>Please enter a valid city name</h2>
     `;
-    return errorWindow;
+
+    const mainContainer = document.getElementById('main-container');
+    mainContainer.append(errorWindow);
   };
 
   const renderLoadingAnimation = () => {
@@ -484,8 +486,8 @@ const DOMHandler = () => {
 
     const searchBox = renderSearchBox();
     if (!data) {
-      const errorWindow = renderErrorWindow();
-      mainContainer.append(searchBox, errorWindow);
+      mainContainer.append(searchBox);
+      renderErrorWindow();
       return;
     }
 
