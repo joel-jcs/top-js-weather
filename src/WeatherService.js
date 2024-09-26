@@ -1,17 +1,18 @@
 const K = 'QHDTK5CFK258D9T7HWU7EVVER';
 
 const WeatherService = () => {
-  const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sanjuan?key=${K}`;
+  // const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/aguadilla?key=${K}`;
 
   async function getWeatherData() {
     let location = {};
     let today = {};
+    let todayHourlyForecast = [];
     let dailyForecast = [];
+    let tomorrowHourlyForecast = [];
 
     try {
       const response = await fetch(url);
       const weatherData = await response.json();
-
       console.log(weatherData);
 
       const {
@@ -29,23 +30,38 @@ const WeatherService = () => {
 
       today = {
         currConditions: currentConditions.conditions,
-        currTime: currentConditions.datetime,
+        temp: currentConditions.temp,
         feelsLike: currentConditions.feelslike,
+        iconValue: currentConditions.icon,
         humidity: currentConditions.humidity,
-        precip: currentConditions.precip,
-        precipProb: currentConditions.precipprob,
-        snow: currentConditions.snow,
-        snowDepth: currentConditions.snowdepth,
+        wind: currentConditions.windspeed,
+        precip: (days[0].precip * 100).toFixed(0),
+        uvIndex: currentConditions.uvindex,
+        pressure: currentConditions.pressure,
+        visibility: currentConditions.visibility,
         sunrise: currentConditions.sunrise,
         sunset: currentConditions.sunset,
-        temp: currentConditions.temp,
-        wind: currentConditions.windspeed,
-        iconValue: currentConditions.icon,
         description: description,
-        hourlyData: days[0].hours,
       };
 
+      todayHourlyForecast = days[0].hours.map((hour) => {
+        return {
+          datetime: hour.datetime,
+          icon: hour.icon,
+          temp: hour.temp,
+        };
+      });
+
+      tomorrowHourlyForecast = days[1].hours.map((hour) => {
+        return {
+          datetime: hour.datetime,
+          icon: hour.icon,
+          temp: hour.temp,
+        };
+      });
+
       dailyForecast = [
+        days[0],
         days[1],
         days[2],
         days[3],
@@ -58,7 +74,13 @@ const WeatherService = () => {
       console.log(error);
     }
 
-    return { location, today, dailyForecast };
+    return {
+      location,
+      today,
+      todayHourlyForecast,
+      tomorrowHourlyForecast,
+      dailyForecast,
+    };
   }
 
   return {
