@@ -7,6 +7,13 @@ const DOMHandler = () => {
     const mainContainer = document.createElement('div');
     mainContainer.id = 'main-container';
 
+    const searchBox = renderSearchBox();
+
+    mainContainer.append(searchBox);
+    contentContainer.append(mainContainer);
+  };
+
+  const renderSearchBox = () => {
     const searchBox = document.createElement('div');
     searchBox.id = 'search-box';
     searchBox.classList.add('main-container-card');
@@ -26,8 +33,6 @@ const DOMHandler = () => {
 
     searchForm.append(searchInput, searchBtn);
     searchBox.append(searchForm);
-    mainContainer.append(searchBox);
-    contentContainer.append(mainContainer);
 
     searchBtn.onclick = (e) => {
       e.preventDefault();
@@ -38,6 +43,8 @@ const DOMHandler = () => {
 
       loadContent(searchInput.value);
     };
+
+    return searchBox;
   };
 
   const getWeatherIcon = (timeframeIcon) => {
@@ -365,7 +372,9 @@ const DOMHandler = () => {
     const data = await WeatherService.getWeatherData(city);
 
     const mainContainer = document.getElementById('main-container');
+    mainContainer.innerHTML = '';
 
+    const searchBox = renderSearchBox();
     const locationContainer = renderLocation(data);
     const weatherSummaryContainer = renderWeatherSummary(data);
     const currentWeatherContainer = renderCurrentWeather(data);
@@ -374,6 +383,7 @@ const DOMHandler = () => {
     const sunsetSunriseContainer = renderDaylight(data);
 
     mainContainer.append(
+      searchBox,
       locationContainer,
       weatherSummaryContainer,
       currentWeatherContainer,
@@ -385,7 +395,7 @@ const DOMHandler = () => {
     return mainContainer;
   };
 
-  return { initDOM, loadContent };
+  return { initDOM };
 };
 
 export default DOMHandler();
