@@ -1,6 +1,5 @@
 const DateHandler = () => {
   const getTimezone = (data) => {
-    console.log(data);
     const tz = data.location.timezone;
     return tz;
   };
@@ -11,7 +10,7 @@ const DateHandler = () => {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
-      hour: '2-digit',
+      hour: 'numeric',
       minute: '2-digit',
       second: '2-digit',
       hour12: true,
@@ -22,6 +21,17 @@ const DateHandler = () => {
     const formattedDate = formatter.format(date);
 
     return formattedDate;
+  };
+
+  const getFormattedTime = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    const options = {
+      hour: 'numeric',
+      hour12: true,
+    };
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    const formattedTime = formatter.format(date);
+    return formattedTime;
   };
 
   const getCurrentHour = (data) => {
@@ -50,7 +60,13 @@ const DateHandler = () => {
     return dayOfWeek;
   };
 
-  return { getTimezone, getFormattedDate, getCurrentHour, getDayOfWeek };
+  return {
+    getTimezone,
+    getFormattedDate,
+    getFormattedTime,
+    getCurrentHour,
+    getDayOfWeek,
+  };
 };
 
 export default DateHandler();
