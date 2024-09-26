@@ -1,9 +1,8 @@
 const K = 'QHDTK5CFK258D9T7HWU7EVVER';
 
 const WeatherService = () => {
-  // const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/aguadilla?key=${K}`;
-
-  async function getWeatherData() {
+  async function getWeatherData(city) {
+    const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${K}`;
     let location = {};
     let today = {};
     let todayHourlyForecast = [];
@@ -61,7 +60,6 @@ const WeatherService = () => {
       });
 
       dailyForecast = [
-        days[0],
         days[1],
         days[2],
         days[3],
