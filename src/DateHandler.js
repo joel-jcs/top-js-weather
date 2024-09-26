@@ -1,13 +1,13 @@
 import WeatherService from './WeatherService.js';
 
 const DateHandler = () => {
-  const getTimezone = async () => {
-    const data = await WeatherService.getWeatherData();
+  const getTimezone = (data) => {
+    console.log(data);
     const tz = data.location.timezone;
     return tz;
   };
 
-  const getFormattedDate = async (tz) => {
+  const getFormattedDate = (tz) => {
     const options = {
       timeZone: tz,
       year: 'numeric',
@@ -26,8 +26,8 @@ const DateHandler = () => {
     return formattedDate;
   };
 
-  const getCurrentHour = async () => {
-    const tz = await getTimezone();
+  const getCurrentHour = (data) => {
+    const tz = getTimezone(data);
     const date = new Date();
     const options = {
       timeZone: tz,
@@ -39,7 +39,7 @@ const DateHandler = () => {
     return parseInt(currentHour, 10);
   };
 
-  const getDayOfWeek = async (day) => {
+  const getDayOfWeek = (day) => {
     const options = {
       weekday: 'long',
     };
