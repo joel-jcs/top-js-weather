@@ -3,6 +3,8 @@ const K = 'QHDTK5CFK258D9T7HWU7EVVER';
 const WeatherService = () => {
   async function getWeatherData(city) {
     const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=${K}`;
+
+    let weatherData;
     let location = {};
     let today = {};
     let todayHourlyForecast = [];
@@ -11,8 +13,13 @@ const WeatherService = () => {
 
     try {
       const response = await fetch(url);
-      const weatherData = await response.json();
-      console.log(weatherData);
+
+      if (!response.ok) {
+        weatherData = null;
+        return;
+      }
+
+      weatherData = await response.json();
 
       const {
         currentConditions,
@@ -75,6 +82,7 @@ const WeatherService = () => {
     }
 
     return {
+      weatherData,
       location,
       today,
       todayHourlyForecast,
