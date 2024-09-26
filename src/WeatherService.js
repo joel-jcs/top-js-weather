@@ -46,6 +46,7 @@ const WeatherService = () => {
       todayHourlyForecast = days[0].hours.map((hour) => {
         return {
           datetime: hour.datetime,
+          datetimeEpoch: hour.datetimeEpoch,
           icon: hour.icon,
           temp: hour.temp,
         };
@@ -54,6 +55,7 @@ const WeatherService = () => {
       tomorrowHourlyForecast = days[1].hours.map((hour) => {
         return {
           datetime: hour.datetime,
+          datetimeEpoch: hour.datetimeEpoch,
           icon: hour.icon,
           temp: hour.temp,
         };
