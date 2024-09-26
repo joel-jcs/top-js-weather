@@ -42,6 +42,7 @@ main {
   display: grid;
   grid-template-areas:
     'search search'
+    'error error'
     'location location'
     'summary forecast'
     'current forecast'
@@ -70,10 +71,6 @@ h1 {
 
 h2 {
   font-size: 1.2rem;
-}
-
-h3 {
-  font-size: 1.1rem;
 }
 
 #search-box {
@@ -112,6 +109,15 @@ h3 {
   background-color: rgb(145, 213, 48);
   color: white;
   cursor: pointer;
+}
+
+#error-window {
+  grid-area: error;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 #location-container {

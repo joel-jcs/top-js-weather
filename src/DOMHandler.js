@@ -368,6 +368,18 @@ const DOMHandler = () => {
     return daylightContainer;
   };
 
+  const renderErrorWindow = () => {
+    const errorWindow = document.createElement('div');
+    errorWindow.id = 'error-window';
+    errorWindow.classList.add('main-container-card');
+    errorWindow.innerHTML = `
+    <h1>⚠️ City not found</h1>
+    <h2>Please enter a valid city name</h2>
+    `;
+
+    return errorWindow;
+  };
+
   const loadContent = async (city) => {
     const data = await WeatherService.getWeatherData(city);
 
@@ -375,6 +387,13 @@ const DOMHandler = () => {
     mainContainer.innerHTML = '';
 
     const searchBox = renderSearchBox();
+
+    if (!data) {
+      const errorWindow = renderErrorWindow();
+      mainContainer.append(searchBox, errorWindow);
+      return;
+    }
+
     const locationContainer = renderLocation(data);
     const weatherSummaryContainer = renderWeatherSummary(data);
     const currentWeatherContainer = renderCurrentWeather(data);
