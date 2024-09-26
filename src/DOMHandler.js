@@ -78,6 +78,9 @@ const DOMHandler = () => {
     locationContainer.id = 'location-container';
     locationContainer.classList.add('main-container-card');
 
+    const locationInfo = document.createElement('div');
+    locationInfo.id = 'location-info';
+
     const locationName = document.createElement('h1');
     locationName.id = 'location-heading';
     locationName.textContent = data.location.cityCountry;
@@ -86,9 +89,62 @@ const DOMHandler = () => {
     locationTime.id = 'date-and-time';
     locationTime.textContent = dateAndTime;
 
-    locationContainer.append(locationName, locationTime);
+    locationInfo.append(locationName, locationTime);
+
+    const tempButton = document.createElement('button');
+    tempButton.id = 'temp-btn';
+    tempButton.textContent = 'Temp Unit: °F';
+
+    let isTempUnitChanged = false;
+    const originalTempArray = [];
+    const convertedTempArray = [];
+    tempButton.addEventListener('click', () => {
+      tempButton.textContent =
+        tempButton.textContent === 'Temp Unit: °F'
+          ? 'Temp Unit: °C'
+          : 'Temp Unit: °F';
+      convertTemperature(
+        isTempUnitChanged,
+        originalTempArray,
+        convertedTempArray,
+      );
+      isTempUnitChanged = !isTempUnitChanged;
+    });
+
+    locationContainer.append(locationInfo, tempButton);
 
     return locationContainer;
+  };
+
+  const convertTemperature = (
+    isTempUnitChanged,
+    originalTempArray,
+    convertedTempArray,
+  ) => {
+    const tempArray = document.querySelectorAll('.temp');
+    const tempUnitArray = document.querySelectorAll('.temp-unit');
+
+    tempArray.forEach((temp, index) => {
+      let convertedTemp;
+      const tempValue = parseInt(temp.textContent.split('°')[0], 10);
+
+      if (!isTempUnitChanged) {
+        originalTempArray.push(tempValue);
+        convertedTemp = (tempValue - 32) * (5 / 9);
+        convertedTempArray.push(convertedTemp);
+        temp.textContent = `${convertedTempArray[index].toFixed(0)}°`;
+      } else {
+        temp.textContent = `${originalTempArray[index].toFixed(0)}°`;
+      }
+    });
+
+    tempUnitArray.forEach((tempUnit) => {
+      if (tempUnit.textContent === 'F') {
+        tempUnit.textContent = 'C';
+      } else {
+        tempUnit.textContent = 'F';
+      }
+    });
   };
 
   const renderWeatherSummary = (data) => {
@@ -123,21 +179,36 @@ const DOMHandler = () => {
 
     const currentTempContainer = document.createElement('div');
     currentTempContainer.id = 'current-temp-container';
+
     const currentTemp = document.createElement('span');
     currentTemp.id = 'current-temp';
+    currentTemp.classList.add('temp');
     currentTemp.textContent = `${currWeather.temp}°`;
+
     const currentTempUnit = document.createElement('span');
     currentTempUnit.id = 'current-temp-unit';
+    currentTempUnit.classList.add('temp-unit');
     currentTempUnit.textContent = 'F';
+
     currentTempContainer.append(currentTemp, currentTempUnit);
 
     const currentWeatherDesc = document.createElement('p');
     currentWeatherDesc.id = 'current-weather-desc';
     currentWeatherDesc.textContent = `${currWeather.currConditions}`;
 
-    const currentfeelsLike = document.createElement('span');
-    currentfeelsLike.id = 'current-real-feel';
-    currentfeelsLike.textContent = `Real Feel: ${currWeather.feelsLike}°`;
+    const feelsLikeContainer = document.createElement('div');
+    feelsLikeContainer.id = 'feels-like-container';
+
+    const feelsLikeText = document.createElement('span');
+    feelsLikeText.id = 'feels-like-text';
+    feelsLikeText.textContent = `Feels Like: `;
+
+    const feelsLikeTemp = document.createElement('span');
+    feelsLikeTemp.id = 'current-feels-like';
+    feelsLikeTemp.classList.add('temp');
+    feelsLikeTemp.textContent = `${currWeather.feelsLike}°`;
+
+    feelsLikeContainer.append(feelsLikeText, feelsLikeTemp);
 
     const currentStatsContainer = document.createElement('div');
     currentStatsContainer.id = 'current-stats-container';
@@ -185,7 +256,7 @@ const DOMHandler = () => {
       currentWeatherHeading,
       currentTempContainer,
       currentWeatherDesc,
-      currentfeelsLike,
+      feelsLikeContainer,
       currentStatsContainer,
     );
 
@@ -207,15 +278,26 @@ const DOMHandler = () => {
     const renderHourlyCard = (hour) => {
       const displayHour = DateHandler.getFormattedTime(hour.datetimeEpoch);
       const weatherIcon = getWeatherIcon(hour.icon);
-      const hourTemp = hour.temp.toFixed(0);
+      const hourTemp = hour.temp;
 
       const hourlyWeatherCard = document.createElement('div');
       hourlyWeatherCard.classList.add('hourly-weather-card');
-      hourlyWeatherCard.innerHTML += `
-      <h3>${displayHour}</h3>
-      ${weatherIcon}
-      <p>${hourTemp}°</p>
-      `;
+
+      const hourlyWeatherCardTitle = document.createElement('h3');
+      hourlyWeatherCardTitle.textContent = displayHour;
+
+      const hourlyWeatherCardIcon = document.createElement('div');
+      hourlyWeatherCardIcon.innerHTML = weatherIcon;
+
+      const hourlyWeatherCardTemp = document.createElement('span');
+      hourlyWeatherCardTemp.classList.add('temp');
+      hourlyWeatherCardTemp.textContent = `${hourTemp}°`;
+
+      hourlyWeatherCard.append(
+        hourlyWeatherCardTitle,
+        hourlyWeatherCardIcon,
+        hourlyWeatherCardTemp,
+      );
       return hourlyWeatherCard;
     };
 
@@ -297,6 +379,7 @@ const DOMHandler = () => {
       tempContainer.innerHTML = `${weatherIcon}`;
 
       const temp = document.createElement('span');
+      temp.classList.add('temp');
       temp.textContent = `${day.temp.toFixed(0)}°`;
 
       tempContainer.append(temp);
