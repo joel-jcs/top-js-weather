@@ -19,9 +19,10 @@
 
 main {
   background-color: var(--content-bg);
-  padding: 20px 0;
+  padding: 30px 0;
   padding-bottom: 100px;
   display: flex;
+  min-height: 100vh;
 }
 
 #content-container {
@@ -69,6 +70,18 @@ h2 {
   font-size: 1.2rem;
 }
 
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
 #search-box {
   grid-area: search;
   display: flex;
@@ -104,7 +117,6 @@ h2 {
   outline: none;
   background-color: rgb(145, 213, 48);
   color: white;
-  cursor: pointer;
 }
 
 #loading-animation {
@@ -145,8 +157,25 @@ h2 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 30px;
   width: 100%;
+}
+
+#location-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#temp-btn {
+  border-radius: 1rem;
+  padding: 5px 10px;
+  width: 100px;
+  background-color: rgb(48, 147, 213);
+  color: white;
+  border: none;
 }
 
 #weather-summary-container {
@@ -163,7 +192,7 @@ h2 {
     'heading heading'
     'temp stats'
     'desc stats'
-    'realfeel stats';
+    'feelslike stats';
   grid-template-columns: 1fr 2fr;
   grid-area: current;
 }
@@ -189,8 +218,8 @@ h2 {
   font-size: 1.1rem;
 }
 
-#current-real-feel {
-  grid-area: realfeel;
+#current-feels-like {
+  grid-area: feelslike;
   font-size: 0.9rem;
 }
 
