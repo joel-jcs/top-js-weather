@@ -7,9 +7,7 @@ const DateHandler = () => {
     return tz;
   };
 
-  const getFormattedDate = async () => {
-    const tz = await getTimezone();
-
+  const getFormattedDate = async (tz) => {
     const options = {
       timeZone: tz,
       year: 'numeric',
@@ -28,7 +26,20 @@ const DateHandler = () => {
     return formattedDate;
   };
 
-  return { getFormattedDate };
+  const getDayOfWeek = async (day) => {
+    const options = {
+      weekday: 'long',
+    };
+
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    const date = new Date(day);
+    date.setDate(date.getDate() + 1); //setting to the next day because for some reason the function ends up pulling the previous day
+    const dayOfWeek = formatter.format(date);
+
+    return dayOfWeek;
+  };
+
+  return { getTimezone, getFormattedDate, getDayOfWeek };
 };
 
 export default DateHandler();
