@@ -1,5 +1,3 @@
-import WeatherService from './WeatherService.js';
-
 const DateHandler = () => {
   const getTimezone = (data) => {
     console.log(data);
