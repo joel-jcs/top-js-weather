@@ -158,6 +158,19 @@ h3 {
   gap: 10px;
 }
 
+#hourly-data-container::-webkit-scrollbar {
+  height: 5px;
+}
+
+#hourly-data-container::-webkit-scrollbar-track {
+  background: var(--nav-bg);
+}
+
+#hourly-data-container::-webkit-scrollbar-thumb {
+  background: var(--content-bg);
+  border-radius: 10px;
+}
+
 .hourly-weather-card {
   display: flex;
   flex-direction: column;
@@ -165,7 +178,6 @@ h3 {
   align-items: center;
   padding: 10px 0;
   gap: 10px;
-  background-color: blue;
   user-select: none;
 }
 
@@ -180,6 +192,8 @@ h3 {
 #daily-data-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin: auto 0;
   gap: 10px;
 }
 
