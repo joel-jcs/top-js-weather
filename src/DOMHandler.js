@@ -186,9 +186,6 @@ const DOMHandler = () => {
   };
 
   const renderHourlyWeather = (data) => {
-    const { todayHourlyForecast, tomorrowHourlyForecast } = data;
-    const currentHour = DateHandler.getCurrentHour(data);
-
     const hourlyWeatherContainer = document.createElement('div');
     hourlyWeatherContainer.id = 'hourly-weather-container';
     hourlyWeatherContainer.classList.add('main-container-card');
@@ -200,47 +197,49 @@ const DOMHandler = () => {
     const hourlyDataContainer = document.createElement('div');
     hourlyDataContainer.id = 'hourly-data-container';
 
-    todayHourlyForecast.forEach((hour) => {
-      const trimmedHour = hour.datetime.split(':')[0];
-      const trimmedHourInt = parseInt(trimmedHour, 10);
-      if (currentHour < trimmedHourInt) {
-        const weatherIcon = getWeatherIcon(hour.icon);
+    const renderHourlyCard = (hour) => {
+      const displayHour = DateHandler.getFormattedTime(hour.datetimeEpoch);
+      const weatherIcon = getWeatherIcon(hour.icon);
+      const hourTemp = hour.temp.toFixed(0);
 
-        const hourlyWeatherCard = document.createElement('div');
-        hourlyWeatherCard.classList.add('hourly-weather-card');
-        hourlyWeatherCard.innerHTML += `
-          <h3>${trimmedHour}</h3>
-          ${weatherIcon}
-          <p>${hour.temp.toFixed(0)}°</p>
-        `;
+      const hourlyWeatherCard = document.createElement('div');
+      hourlyWeatherCard.classList.add('hourly-weather-card');
+      hourlyWeatherCard.innerHTML += `
+      <h3>${displayHour}</h3>
+      ${weatherIcon}
+      <p>${hourTemp}°</p>
+      `;
+      return hourlyWeatherCard;
+    };
+
+    const { todayHourlyForecast, tomorrowHourlyForecast } = data;
+    const showTodayHourlyCards = () => {
+      const currentHour = DateHandler.getCurrentHour(data);
+      todayHourlyForecast.forEach((hour) => {
+        const trimmedHour = hour.datetime.split(':')[0];
+        const trimmedHourInt = parseInt(trimmedHour, 10);
+
+        if (currentHour > trimmedHourInt) {
+          return;
+        }
+        const hourlyWeatherCard = renderHourlyCard(hour);
         hourlyDataContainer.append(hourlyWeatherCard);
+      });
+    };
 
-        tomorrowHourlyForecast.forEach((hour) => {
-          const trimmedHour = hour.datetime.split(':')[0];
-          const weatherIcon = getWeatherIcon(hour.icon);
-          const hourlyWeatherCard = document.createElement('div');
-          hourlyWeatherCard.classList.add('hourly-weather-card');
-          hourlyWeatherCard.innerHTML += `
-              <h3>${trimmedHour}</h3>
-              ${weatherIcon}
-              <p>${hour.temp.toFixed(0)}°</p>
-            `;
+    const showTomorrowHourlyCards = () => {
+      const childCount = hourlyDataContainer.childElementCount;
+      const remainingHours = 24 - childCount;
+      if (childCount < 24) {
+        tomorrowHourlyForecast.slice(0, remainingHours).forEach((hour) => {
+          const hourlyWeatherCard = renderHourlyCard(hour);
           hourlyDataContainer.append(hourlyWeatherCard);
         });
-      } else {
-        // TO-DO -> DRY
-        const weatherIcon = getWeatherIcon(hour.icon);
-
-        const hourlyWeatherCard = document.createElement('div');
-        hourlyWeatherCard.classList.add('hourly-weather-card');
-        hourlyWeatherCard.innerHTML += `
-          <h3>${trimmedHour}</h3>
-          ${weatherIcon}
-          <p>${hour.temp.toFixed(0)}°</p>
-        `;
-        hourlyDataContainer.append(hourlyWeatherCard);
       }
-    });
+    };
+
+    showTodayHourlyCards();
+    showTomorrowHourlyCards();
 
     hourlyWeatherContainer.append(hourlyWeatherHeading, hourlyDataContainer);
 
