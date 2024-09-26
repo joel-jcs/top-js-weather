@@ -26,6 +26,19 @@ const DateHandler = () => {
     return formattedDate;
   };
 
+  const getCurrentHour = async () => {
+    const tz = await getTimezone();
+    const date = new Date();
+    const options = {
+      timeZone: tz,
+      hour: '2-digit',
+      hour12: false,
+    };
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    const currentHour = formatter.format(date);
+    return parseInt(currentHour, 10);
+  };
+
   const getDayOfWeek = async (day) => {
     const options = {
       weekday: 'long',
@@ -39,7 +52,7 @@ const DateHandler = () => {
     return dayOfWeek;
   };
 
-  return { getTimezone, getFormattedDate, getDayOfWeek };
+  return { getTimezone, getFormattedDate, getCurrentHour, getDayOfWeek };
 };
 
 export default DateHandler();
