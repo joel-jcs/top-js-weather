@@ -35,7 +35,6 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: red;
 }
 
 #main-container {
@@ -50,15 +49,14 @@ main {
   justify-content: center;
   align-items: center;
   grid-template-columns: 1fr 1fr;
-  background: blue;
   padding: 10px 30px;
   gap: 15px;
 }
 
 .main-container-card {
   margin: auto;
-  width: 500px;
-  padding: 20px 40px;
+  width: 600px;
+  padding: 20px;
   background-color: var(--nav-bg);
   border-radius: var(--card-border-radius);
   box-shadow: var(--card-box-shadow);
@@ -93,10 +91,6 @@ h3 {
   justify-content: center;
   gap: 10px;
   grid-area: summary;
-}
-
-#weather-summary-text {
-  /* display: none; */
 }
 
 #current-weather-container {
@@ -194,36 +188,39 @@ h3 {
   justify-content: center;
   align-items: center;
   padding: 10px 0;
-  gap: 10px;
-  background-color: blue;
+  gap: 5px;
   user-select: none;
+  border: 1px solid gray;
+  border-radius: 5px;
 }
 
-.day-container {
+.date-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: red;
-  width: 20%;
+  width: 15%;
 }
 
-.day-container span:nth-child(1) {
+.date-container span:nth-child(1) {
   font-weight: bold;
 }
 
-.day-container span:nth-child(2) {
-  font-size: 0.9rem;
+.date-container span:nth-child(2) {
+  font-size: 0.8rem;
 }
 
 .temp-container {
   display: flex;
   align-items: center;
-  width: 25%;
+  justify-content: center;
+  gap: 5px;
+  width: 15%;
 }
 
-.temp-container img {
-  width: 50px;
+.temp-container svg {
+  width: 30px;
+  fill: white;
 }
 
 .temp-container span {
@@ -232,16 +229,33 @@ h3 {
 }
 
 .conditions-container {
-  background: orange;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 45%;
-  gap: 10px;
+  width: 55%;
+  padding: 0 15px;
+}
+
+.conditions-container span {
+  font-weight: bold;
+}
+
+.conditions-container p {
+  font-size: 0.8rem;
+}
+
+.precip-container {
+  display: flex;
+  width: 10%;
+}
+
+.precip-container svg {
+  width: 20px;
+  fill: white;
 }
 
 .precip {
-  width: 10%;
+  width: 5%;
   font-size: 0.9rem;
 }
 
