@@ -36,8 +36,8 @@ const WeatherService = () => {
 
       today = {
         currConditions: currentConditions.conditions,
-        temp: currentConditions.temp,
-        feelsLike: currentConditions.feelslike,
+        temp: currentConditions.temp.toFixed(0),
+        feelsLike: currentConditions.feelslike.toFixed(0),
         iconValue: currentConditions.icon,
         humidity: currentConditions.humidity,
         wind: currentConditions.windspeed,
@@ -55,7 +55,7 @@ const WeatherService = () => {
           datetime: hour.datetime,
           datetimeEpoch: hour.datetimeEpoch,
           icon: hour.icon,
-          temp: hour.temp,
+          temp: hour.temp.toFixed(0),
         };
       });
 
@@ -64,7 +64,7 @@ const WeatherService = () => {
           datetime: hour.datetime,
           datetimeEpoch: hour.datetimeEpoch,
           icon: hour.icon,
-          temp: hour.temp,
+          temp: hour.temp.toFixed(0),
         };
       });
 
@@ -82,7 +82,6 @@ const WeatherService = () => {
     }
 
     return {
-      weatherData,
       location,
       today,
       todayHourlyForecast,
