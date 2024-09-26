@@ -181,6 +181,11 @@ h3 {
   user-select: none;
 }
 
+.hourly-weather-card svg {
+  width: 50px;
+  fill: white;
+}
+
 #daily-weather-container {
   display: flex;
   flex-direction: column;
