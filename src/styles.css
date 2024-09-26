@@ -19,13 +19,9 @@
 
 main {
   background-color: var(--content-bg);
-  height: calc(100vh - 40px);
-  /* overflow-y: scroll; */
   padding: 20px 0;
+  padding-bottom: 100px;
   display: flex;
-  /* flex-direction: column; */
-  /* justify-content: center; */
-  /* align-items: center; */
 }
 
 #content-container {
@@ -109,6 +105,29 @@ h2 {
   background-color: rgb(145, 213, 48);
   color: white;
   cursor: pointer;
+}
+
+#loading-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  fill: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(45deg) scale(1.5);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
 }
 
 #error-window {
@@ -337,6 +356,10 @@ h2 {
 
 footer {
   height: 40px;
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
+  width: 100%;
   display: flex;
   gap: 20px;
   justify-content: center;
